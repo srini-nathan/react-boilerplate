@@ -37,7 +37,8 @@
 		"pretty": false,
 		"removeComments": true,
 		"sourceMap": false,
-		"esModuleInterop": true
+		"esModuleInterop": true,
+		"resolveJsonModule": true
 	},
 	"compileOnSave": false,
 	"include": ["src/**/*", "test/**/*", "config/**/*"],

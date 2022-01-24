@@ -3,32 +3,39 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { AsyncPage, routes } from "./routes";
 import { ThemeProvider, DefaultTheme } from "styled-components";
+import { useSelector } from "react-redux";
+import { appSelectors } from "@/store/ducks/app";
 
 import { themes } from "@/styled/themes";
 
 const App: React.FC<{}> = () => {
+  const theme = useSelector(appSelectors.theme);
+  const activeTheme: DefaultTheme = themes[theme];
+
   return (
-    <Routes>
-      {routes.map((r) => (
+    <ThemeProvider theme={activeTheme}>
+      <Routes>
+        {routes.map((r) => (
+          <Route
+            key={r.path}
+            path={r.path}
+            element={
+              <r.Layout>
+                <r.Component />
+              </r.Layout>
+            }
+          />
+        ))}
         <Route
-          key={r.path}
-          path={r.path}
+          path="*"
           element={
-            <r.Layout>
-              <r.Component />
-            </r.Layout>
+            <MainLayout>
+              <AsyncPage page="not-found" />
+            </MainLayout>
           }
         />
-      ))}
-      <Route
-        path="*"
-        element={
-          <MainLayout>
-            <AsyncPage page="not-found" />
-          </MainLayout>
-        }
-      />
-    </Routes>
+      </Routes>
+    </ThemeProvider>
   );
 };
 
